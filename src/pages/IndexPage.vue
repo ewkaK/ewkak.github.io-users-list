@@ -39,6 +39,7 @@ export default defineComponent({
 
     onMounted( () => {
       store.getUsersList();
+      store.getFavoritesList();
     })
 
     const onChangePage = (page) => {

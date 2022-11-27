@@ -7,6 +7,7 @@ export const useUserStore = defineStore('user', {
     userDetails: null,
     currentPage: 1,
     totalPages: 1,
+    favoritesList: []
   }),
 
   actions: {
@@ -33,6 +34,36 @@ export const useUserStore = defineStore('user', {
       } catch(error) {
         console.error(error);
       }
+    },
+
+    async getFavoritesList() {
+      console.log('getFavoritesList');
+
+      const favorites = await JSON.parse(
+        window.localStorage.getItem('favoritesList')
+      );
+
+      console.log(favorites);
+
+      this.favoritesList = favorites || [];
+    },
+
+    async setFavorite(id) {
+      let _favoritesList = this.favoritesList;
+      _favoritesList.push(id);
+      this.favoritesList = _favoritesList;
+
+      const jsonFavoritesList = JSON.stringify(this.favoritesList);
+      await window.localStorage.setItem('favoritesList', jsonFavoritesList);
+    },
+
+    async removeFavorite(id) {
+      const index = this.favoritesList.indexOf(id);
+      this.favoritesList.splice(index, 1);
+
+      const jsonFavoritesList = JSON.stringify(this.favoritesList);
+      await window.localStorage.removeItem('favoritesList');
+      await window.localStorage.setItem('favoritesList', jsonFavoritesList);
     }
   }
 })

@@ -38,6 +38,7 @@ export default defineComponent({
 
     onMounted( () => {
       store.getUserDetails(route.params.id);
+      store.getFavoritesList();
     })
 
     return {

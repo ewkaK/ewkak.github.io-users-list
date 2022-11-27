@@ -31,18 +31,22 @@
           class="UserTile__detailsLink">
           <q-btn flat color="primary" label="details" />
         </router-link>
-
-        add to fav
+        <FavoriteButton :userId="user.id" />
       </q-card-actions>
     </q-card>
   </div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
+import FavoriteButton from "components/FavoriteButton.vue";
 
 export default defineComponent({
   name: 'UserTile',
+
+  components: {
+    FavoriteButton
+  },
 
   props: {
     user: {
@@ -52,7 +56,7 @@ export default defineComponent({
     showDetailsLink: {
       type: Boolean,
       default: true
-    }
+    },
   },
 })
 </script>
