@@ -4,7 +4,14 @@
       <UserTile
         v-for="user in usersList"
         :key="user.id"
-        :user=user />
+        :user=user
+      />
+
+      <Pagination
+        :totalPages= totalPages
+        :initial-page= currentPage
+        @change="onChangePage"
+      />
     </div>
 
   </q-page>
@@ -16,24 +23,34 @@ import { useUserStore } from 'stores/users'
 import { storeToRefs } from "pinia";
 
 import UserTile from 'components/UserTile.vue'
+import Pagination from "components/Pagination.vue";
 
 export default defineComponent({
   name: 'IndexPage',
 
   components: {
     UserTile,
+    Pagination
   },
 
   setup() {
     const store = useUserStore();
-    const { usersList } = storeToRefs(store);
+    const { usersList, currentPage, totalPages } = storeToRefs(store);
 
     onMounted( () => {
       store.getUsersList();
     })
 
+    const onChangePage = (page) => {
+      currentPage.value = page;
+      store.getUsersList()
+    }
+
     return {
       usersList,
+      currentPage,
+      totalPages,
+      onChangePage
     }
   }
 })
