@@ -1,17 +1,28 @@
 <template>
   <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    >
+
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted } from 'vue'
+import { useUserStore } from 'stores/users'
+import { storeToRefs } from "pinia";
 
 export default defineComponent({
-  name: 'IndexPage'
+  name: 'IndexPage',
+
+  setup() {
+    const store = useUserStore();
+    const { usersList } = storeToRefs(store);
+
+    onMounted( () => {
+      store.getUsersList();
+    })
+
+    return {
+      usersList,
+    }
+  }
 })
 </script>
