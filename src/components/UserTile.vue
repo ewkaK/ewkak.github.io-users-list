@@ -1,6 +1,6 @@
 <template>
-  <div class="UserTile">
-    <q-card>
+  <div class="UserTile flex">
+    <q-card class="UserTile__tile">
       <q-item>
         <q-item-section avatar>
           <q-avatar>
@@ -20,15 +20,18 @@
       </q-item>
 
       <q-card-section>
+        name: {{ user.first_name }} {{ user.last_name }} <br />
         email: <a :href="`mailto:${user.email}`">{{ user.email }}</a>
-        <router-link
-          :to="`/users/${user.id}`"
-          class="detailsLink">
-          details
-        </router-link>
       </q-card-section>
 
       <q-card-actions align="right">
+        <router-link
+          v-if="showDetailsLink"
+          :to="`/user/${user.id}`"
+          class="UserTile__detailsLink">
+          <q-btn flat color="primary" label="details" />
+        </router-link>
+
         add to fav
       </q-card-actions>
     </q-card>
@@ -44,7 +47,25 @@ export default defineComponent({
   props: {
     user: {
       type: Object,
+    },
+
+    showDetailsLink: {
+      type: Boolean,
+      default: true
     }
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.UserTile {
+  &__tile {
+    min-width: 300px;
+  }
+
+  &__detailsLink {
+    text-decoration: none;
+    display: block;
+  }
+}
+</style>

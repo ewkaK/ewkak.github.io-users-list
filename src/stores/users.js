@@ -21,6 +21,18 @@ export const useUserStore = defineStore('user', {
       } catch(error) {
         console.log(error);
       }
+    },
+
+    async getUserDetails(id) {
+      try {
+        const response = await axios.get(
+          `https://reqres.in/api/users/${id}`
+        );
+
+        this.userDetails = response.data.data;
+      } catch(error) {
+        console.error(error);
+      }
     }
   }
 })
